@@ -1,6 +1,9 @@
+require("dotenv").config();
+require("./database/database.js").connect();
 const express = require("express");
+
 const app = express();
-const port = 5000;
+const port = process.env.PORT || 5000;
 
 app.get("/", (req, res) => {
   res.send({ message: "Hello, nodemon!" });
