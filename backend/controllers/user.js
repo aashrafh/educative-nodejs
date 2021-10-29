@@ -114,3 +114,48 @@ exports.signup = async (req, res) => {
     return res.status(400).send(err.message);
   }
 };
+
+exports.login = async (req, res) => {
+  try {
+    // Get user data
+    const { emailOrUsername, password } = req.body;
+
+    // Validate user data
+    if (!(emailOrUsername && password)) {
+      res.status(400).send("All data is required");
+    }
+
+    // A regex expression to test if the given value is an email or username
+    let regexEmail = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+    const data = regexEmail.test(emailOrUsername)
+      ? {
+          email: emailOrUsername,
+        }
+      : {
+          username: emailOrUsername,
+        };
+    // Validate if user exist in our database
+    const user = await User.findOne(data);
+
+    if (user && (await bcrypt.compare(password, user.password))) {
+      // Create token
+      const email = user.email;
+      const token = jwt.sign(
+        { user_id: user._id, email },
+        process.env.TOKEN_SECRET_KEY,
+        {
+          expiresIn: "2h",
+        }
+      );
+      // save user token
+      user.token = token;
+
+      // user
+      res.status(200).json(user);
+    }
+    res.status(400).send("Invalid Credentials");
+  } catch (err) {
+    console.error(err);
+    return res.status(400).send(err.message);
+  }
+};
