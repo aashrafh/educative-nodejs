@@ -20,7 +20,6 @@ const signup = ({ firstName, lastName, username, email, password }) => {
  * Handles the verify email request.
  */
 const verify = (confirmationToken) => {
-  console.log(confirmationToken);
   return axios.get(`${API_URL}/verify/${confirmationToken}`);
 };
 

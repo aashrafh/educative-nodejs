@@ -1,3 +1,5 @@
+/* eslint-disable react-hooks/exhaustive-deps */
+
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router";
 import Alert from "../components/Alert";
@@ -7,7 +9,6 @@ import AuthService from "../services/auth.service";
 
 const Confirmation = () => {
   const { confirmationToken } = useParams();
-  console.log(confirmationToken);
   const [processing, setProcessing] = useState(true);
   const [alertState, setAlertState] = useState({
     show: false,
