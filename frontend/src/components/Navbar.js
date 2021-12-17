@@ -1,8 +1,9 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { Transition } from "@headlessui/react";
 import { Link } from "react-router-dom";
 
 import logo from "../assets/logo.png";
+import { Context } from "../context";
 
 const Actions = ({ auth, customStyle }) => {
   return (
@@ -13,12 +14,12 @@ const Actions = ({ auth, customStyle }) => {
         </button>
       ) : (
         <>
-          <button type="button" className={customStyle}>
+          <Link to="/login" className={customStyle}>
             Login
-          </button>
-          <button type="button" className={customStyle}>
+          </Link>
+          <Link to="/signup" className={customStyle}>
             Signup
-          </button>
+          </Link>
         </>
       )}
     </>
@@ -26,6 +27,7 @@ const Actions = ({ auth, customStyle }) => {
 };
 
 const Navbar = ({ auth }) => {
+  const { state } = useContext(Context);
   const [isOpen, setIsOpen] = useState(false);
   return (
     <div>
@@ -49,7 +51,7 @@ const Navbar = ({ auth }) => {
             </div>
             <div className="hidden md:block">
               <Actions
-                auth={auth}
+                auth={state.auth}
                 customStyle="hover:bg-gray-700 text-white px-3 py-2 rounded-md text-sm font-medium"
               />
             </div>
@@ -119,7 +121,7 @@ const Navbar = ({ auth }) => {
                   Home
                 </Link>
                 <Actions
-                  auth={auth}
+                  auth={state.auth}
                   customStyle="hover:bg-gray-700 text-white block px-3 py-2 rounded-md text-base font-medium"
                 />
               </div>

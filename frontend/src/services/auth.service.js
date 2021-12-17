@@ -7,7 +7,7 @@ const API_URL = "http://localhost:4000/api"; // The API endpoint to communicate 
  * The data needed for each user is First Name, Last Name, Username, Email, and Password
  */
 const signup = ({ firstName, lastName, username, email, password }) => {
-  return axios.post(`${API_URL}/signup/`, {
+  return axios.post(`${API_URL}/signup`, {
     firstName,
     lastName,
     username,
