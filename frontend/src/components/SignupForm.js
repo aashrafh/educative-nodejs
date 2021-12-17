@@ -23,7 +23,6 @@ const SignupForm = () => {
 
   return (
     <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
-      <input type="hidden" name="remember" value="true" />
       <div className="rounded-md shadow-sm -space-y-px">
         <div>
           <label htmlFor="firstName" className="sr-only">
@@ -127,7 +126,7 @@ const SignupForm = () => {
               />
             </svg>
           </span>
-          Sign up
+          Signup
         </button>
       </div>
     </form>

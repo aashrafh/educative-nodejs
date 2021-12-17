@@ -1,6 +1,6 @@
 import axios from "axios"; // HTTP Client
 
-const API_URL = "http://localhost:4000/api"; // The API endpoint to communicate with the server
+const API_URL = "http://localhost:5000/api"; // The API endpoint to communicate with the server
 
 /**
  * Handles the signup HTTP request to add a new user to the database
@@ -14,6 +14,14 @@ const signup = ({ firstName, lastName, username, email, password }) => {
     email,
     password,
   });
+};
+
+/**
+ * Handles the verify email request.
+ */
+const verify = (confirmationToken) => {
+  console.log(confirmationToken);
+  return axios.get(`${API_URL}/verify/${confirmationToken}`);
 };
 
 /**
@@ -38,6 +46,7 @@ const logout = () => {
 
 const AuthService = {
   signup,
+  verify,
   login,
   logout,
 };
