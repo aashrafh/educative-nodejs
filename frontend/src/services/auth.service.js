@@ -28,15 +28,7 @@ const verify = (confirmationToken) => {
  * The data needed for each user is the username or email along with the password
  */
 const login = ({ emailOrUsername, password }) => {
-  return axios
-    .post(`${API_URL}/login/`, { emailOrUsername, password })
-    .then((res) => {
-      /**
-       * If successfully logged in, store the user data, inlucding the token, in the localStorage
-       */
-      localStorage.setItem("user", JSON.stringify(res.data));
-      return res.data;
-    });
+  return axios.post(`${API_URL}/login`, { emailOrUsername, password });
 };
 
 const logout = () => {

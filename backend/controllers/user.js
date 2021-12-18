@@ -126,7 +126,8 @@ exports.login = async (req, res) => {
     }
 
     // A regex expression to test if the given value is an email or username
-    let regexEmail = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+    let regexEmail =
+      /^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
     const data = regexEmail.test(emailOrUsername)
       ? {
           email: emailOrUsername,
@@ -134,6 +135,7 @@ exports.login = async (req, res) => {
       : {
           username: emailOrUsername,
         };
+
     // Validate if user exist in our database
     const user = await User.findOne(data);
 
@@ -152,8 +154,7 @@ exports.login = async (req, res) => {
 
       // user
       res.status(200).json(user);
-    }
-    res.status(400).send("Invalid Credentials");
+    } else res.status(400).send("Invalid Credentials");
   } catch (err) {
     console.error(err);
     return res.status(400).send(err.message);
