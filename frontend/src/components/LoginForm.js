@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
+import { Context } from "../context";
 
 import AuthService from "../services/auth.service";
 
@@ -6,13 +7,22 @@ const LoginForm = () => {
   const [emailOrUsername, setEmailOrUsername] = useState("");
   const [password, setPassword] = useState("");
 
+  const { dispatch } = useContext(Context);
+
   const handleSubmit = (e) => {
     e.preventDefault();
 
     AuthService.login({ emailOrUsername, password })
       .then((res) => {
         console.log(res);
-        // localStorage.setItem("user", JSON.stringify(res.data));
+        localStorage.setItem("educativeUser", JSON.stringify(res.data));
+        dispatch({
+          type: "LOGIN",
+          payload: {
+            user: res.data,
+            token: res.data.token,
+          },
+        });
       })
       .catch((err) => {
         console.error(err);
