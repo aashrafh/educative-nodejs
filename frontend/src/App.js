@@ -1,3 +1,5 @@
+/* eslint-disable react-hooks/exhaustive-deps */
+
 import React, { useContext, useEffect } from "react";
 import { Context } from "./context";
 import Navbar from "./components/Navbar";
