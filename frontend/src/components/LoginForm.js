@@ -1,6 +1,7 @@
 import React, { useState, useContext } from "react";
 import { Context } from "../context";
-
+import Alert from "./Alert";
+import Loader from "./Loader";
 import AuthService from "../services/auth.service";
 
 const LoginForm = () => {
@@ -8,6 +9,13 @@ const LoginForm = () => {
   const [password, setPassword] = useState("");
 
   const { dispatch } = useContext(Context);
+
+  const [processing, setProcessing] = useState(false);
+  const [alertState, setAlertState] = useState({
+    show: false,
+    color: "green",
+    msg: "",
+  });
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -23,14 +31,26 @@ const LoginForm = () => {
             token: res.data.token,
           },
         });
+        setProcessing(false);
       })
       .catch((err) => {
-        console.error(err);
+        console.log(err);
+        setProcessing(false);
+        setAlertState({
+          show: true,
+          color: "red",
+          msg: err.response.data || "Failed to process the data",
+        });
       });
   };
 
   return (
     <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
+      <div className="flex justify-center">
+        {alertState.show ? (
+          <Alert color={alertState.color} msg={alertState.msg} />
+        ) : null}
+      </div>
       <div className="rounded-md shadow-sm -space-y-px">
         <div>
           <label htmlFor="email-address" className="sr-only">
@@ -88,6 +108,9 @@ const LoginForm = () => {
           </span>
           Login
         </button>
+      </div>
+      <div className="flex justify-center">
+        {processing ? <Loader /> : null}
       </div>
     </form>
   );

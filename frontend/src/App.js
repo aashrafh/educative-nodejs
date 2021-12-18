@@ -27,13 +27,14 @@ const App = () => {
 
   useEffect(() => {
     const user = JSON.parse(localStorage.getItem("educativeUser"));
-    dispatch({
-      type: "LOGIN",
-      payload: {
-        user: user,
-        token: user.token,
-      },
-    });
+    if (user)
+      dispatch({
+        type: "LOGIN",
+        payload: {
+          user: user,
+          token: user?.token,
+        },
+      });
   }, []);
   return (
     <>
