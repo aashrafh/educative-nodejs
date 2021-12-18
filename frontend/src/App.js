@@ -7,6 +7,7 @@ import { Routes, Route, Navigate } from "react-router-dom";
 import Signup from "./pages/Signup";
 import Confirmation from "./pages/Confirmation";
 import Login from "./pages/Login";
+import Home from "./pages/Home";
 
 const RequireAuth = ({ children }) => {
   const { state } = useContext(Context);
@@ -16,10 +17,6 @@ const RequireAuth = ({ children }) => {
 const OnlyNotAuth = ({ children }) => {
   const { state } = useContext(Context);
   return !state.auth ? children : <Navigate to="/" replace />;
-};
-
-const Home = () => {
-  return <h1>Hello, user!</h1>;
 };
 
 const App = () => {
