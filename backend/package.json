@@ -21,6 +21,7 @@
     "mongoose": "^6.0.12",
     "multer": "^1.4.4",
     "nodemailer": "^6.7.0",
+    "sharp": "^0.29.3",
     "spellchecker": "^3.7.1",
     "string-similarity": "^4.0.4"
   }

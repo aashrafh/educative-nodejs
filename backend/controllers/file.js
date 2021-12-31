@@ -3,6 +3,7 @@ const fs = require("fs");
 const readline = require("readline");
 const SpellChecker = require("spellchecker");
 const stringSimilarity = require("string-similarity");
+const sharp = require("sharp");
 
 const BASE_URL = `http://localhost:${process.env.PORT || 5000}/`;
 
@@ -37,6 +38,33 @@ const spellCheck = async (path) => {
   });
 };
 
+const processImage = async (path) => {
+  try {
+    const imgInstnace = sharp(path);
+    const metadata = await imgInstnace.metadata();
+    console.log(metadata);
+
+    const newPath = path.split(".")[0] + "-img.jpeg";
+    imgInstnace
+      .resize({
+        width: 350,
+        fit: sharp.fit.contain,
+      })
+      .toFormat("jpeg", { mozjpeg: true })
+      .blur(1)
+      .composite([{ input: "uploads/logo.png", gravity: "center" }])
+      .toFile(newPath);
+
+    return newPath;
+  } catch (error) {
+    console.log(
+      `An error occurred during processing the uploaded image: ${error}`
+    );
+  }
+
+  return path;
+};
+
 exports.upload = async (req, res) => {
   try {
     const { error } = validate(req.body);
@@ -48,12 +76,17 @@ exports.upload = async (req, res) => {
       await spellCheck(req.file.path);
     }
 
+    let path = req.file.path;
+    if (req.file.mimetype.match(/^image/)) {
+      path = await processImage(req.file.path);
+    }
+
     const file = await File.create({
       name,
       createdBy,
       description,
       createdAt: Date.now(),
-      filePath: BASE_URL + req.file.path,
+      filePath: BASE_URL + path,
     });
 
     res.status(200).json({ message: "File uploaded successfully", data: file });
