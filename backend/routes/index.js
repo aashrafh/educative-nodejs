@@ -24,4 +24,6 @@ router.get("/file", auth, fileController.searchFiles);
 
 router.put("/file/:_id", auth, fileController.updateFile);
 
+router.delete("/file/:_id", auth, fileController.deleteFile);
+
 module.exports = router;
