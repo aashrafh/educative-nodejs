@@ -147,3 +147,39 @@ exports.searchFiles = async (req, res) => {
     return res.status(500).send(err.message);
   }
 };
+
+exports.updateFile = async (req, res) => {
+  try {
+    const { _id } = req.params;
+    const { name, description } = req.body;
+
+    if (!name || !description)
+      return res.status(400).send("File's name and description are required");
+
+    const result = await File.validateAsync({ name, description });
+    const file = await File.findOne({
+      _id,
+    });
+
+    if (!file) {
+      return res.status(404).send("The requested file does not exist");
+    }
+
+    const updatedFile = await File.update(
+      {
+        _id,
+      },
+      {
+        $set: result,
+      },
+      { upsert: true }
+    );
+
+    res
+      .status(200)
+      .json({ message: "File updated successfully", data: updatedFile });
+  } catch (err) {
+    console.log(err);
+    return res.status(500).send(err.message);
+  }
+};

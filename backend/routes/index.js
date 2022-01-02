@@ -22,4 +22,6 @@ router.get("/file/:createdBy/:fileId", auth, fileController.getFile);
 
 router.get("/file", auth, fileController.searchFiles);
 
+router.put("/file/:_id", auth, fileController.updateFile);
+
 module.exports = router;
