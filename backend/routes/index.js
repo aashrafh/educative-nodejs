@@ -16,7 +16,7 @@ router.post("/login", userController.login);
 // Map the 'upload' request to the upload function
 router.post("/upload", auth, upload.single("file"), fileController.upload);
 
-router.get("/file/:createdBy", auth, fileController.getAll);
+router.get("/file", auth, fileController.getAll);
 
 router.get("/file/:createdBy/:fileId", auth, fileController.getFile);
 

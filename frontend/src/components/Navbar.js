@@ -61,6 +61,12 @@ const Navbar = ({ auth }) => {
                   >
                     Upload
                   </Link>
+                  <Link
+                    to="/view"
+                    className=" hover:bg-gray-700 text-white px-3 py-2 rounded-md text-sm font-medium"
+                  >
+                    View
+                  </Link>
                 </div>
               </div>
             </div>
@@ -141,6 +147,12 @@ const Navbar = ({ auth }) => {
                   className="hover:bg-gray-700 text-white block px-3 py-2 rounded-md text-base font-medium"
                 >
                   Upload
+                </Link>
+                <Link
+                  to="/view"
+                  className=" hover:bg-gray-700 text-white px-3 py-2 rounded-md text-sm font-medium"
+                >
+                  View
                 </Link>
                 <Actions
                   auth={state.auth}

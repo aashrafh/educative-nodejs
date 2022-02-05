@@ -98,7 +98,7 @@ exports.upload = async (req, res) => {
 
 exports.getAll = async (req, res) => {
   try {
-    const { createdBy } = req.params;
+    const createdBy = req.user.user_id;
 
     const allFiles = await File.find({ createdBy: createdBy });
     res
