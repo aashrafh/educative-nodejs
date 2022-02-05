@@ -1,6 +1,5 @@
 import React from "react";
-const Alert = ({ color, msg }) => {
-  const [showAlert, setShowAlert] = React.useState(true);
+const Alert = ({ color, msg, showAlert, setShowAlert }) => {
   return (
     <>
       {showAlert ? (

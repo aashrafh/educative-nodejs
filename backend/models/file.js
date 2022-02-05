@@ -31,7 +31,7 @@ const validate = (file) => {
     _id: Joi.string(),
     name: Joi.string().required(),
     description: Joi.string().required(),
-    createdBy: Joi.string().required(),
+    createdBy: Joi.string(),
     filePath: Joi.string(),
     createdAt: Joi.date(),
   });

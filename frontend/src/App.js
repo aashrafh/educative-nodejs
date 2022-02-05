@@ -8,6 +8,7 @@ import Signup from "./pages/Signup";
 import Confirmation from "./pages/Confirmation";
 import Login from "./pages/Login";
 import Home from "./pages/Home";
+import Upload from "./pages/Upload";
 
 const RequireAuth = ({ children }) => {
   const { state } = useContext(Context);
@@ -42,6 +43,15 @@ const App = () => {
           element={
             <RequireAuth>
               <Home />
+            </RequireAuth>
+          }
+        />
+
+        <Route
+          path="/upload"
+          element={
+            <RequireAuth>
+              <Upload />
             </RequireAuth>
           }
         />

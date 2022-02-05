@@ -3,7 +3,7 @@ export default function authHeader() {
    * Get the current user stored in the localStorage and parse it as a JSON
    * so we can access the user object easily in JavaScript
    */
-  const user = JSON.parse(localStorage.getItem("user"));
+  const user = JSON.parse(localStorage.getItem("educativeUser"));
 
   /**
    * Check if the user is undefined (exists) and has a token

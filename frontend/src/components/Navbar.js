@@ -55,6 +55,12 @@ const Navbar = ({ auth }) => {
                   >
                     Home
                   </Link>
+                  <Link
+                    to="/upload"
+                    className=" hover:bg-gray-700 text-white px-3 py-2 rounded-md text-sm font-medium"
+                  >
+                    Upload
+                  </Link>
                 </div>
               </div>
             </div>
@@ -129,6 +135,12 @@ const Navbar = ({ auth }) => {
                   className="hover:bg-gray-700 text-white block px-3 py-2 rounded-md text-base font-medium"
                 >
                   Home
+                </Link>
+                <Link
+                  to="/upload"
+                  className="hover:bg-gray-700 text-white block px-3 py-2 rounded-md text-base font-medium"
+                >
+                  Upload
                 </Link>
                 <Actions
                   auth={state.auth}

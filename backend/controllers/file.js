@@ -33,7 +33,8 @@ const spellCheck = async (path) => {
     text += correctedLine + "\n";
   }
 
-  fs.writeFile(path, text, (err, res) => {
+  console.log(path + ".txt");
+  fs.writeFile(`${path}.txt`, text, (err, res) => {
     if (err) console.log("error", err);
   });
 };
@@ -41,8 +42,6 @@ const spellCheck = async (path) => {
 const processImage = async (path) => {
   try {
     const imgInstnace = sharp(path);
-    const metadata = await imgInstnace.metadata();
-    console.log(metadata);
 
     const newPath = path.split(".")[0] + "-img.jpeg";
     imgInstnace
@@ -70,20 +69,21 @@ exports.upload = async (req, res) => {
     const { error } = validate(req.body);
     if (error) return res.status(400).send(error.details[0].message);
 
-    const { createdBy, name, description } = req.body;
+    const { name, description } = req.body;
+    let path = req.file.path;
 
     if (req.file.mimetype === "text/plain") {
       await spellCheck(req.file.path);
+      path = `${req.file.path}.txt`;
     }
 
-    let path = req.file.path;
     if (req.file.mimetype.match(/^image/)) {
       path = await processImage(req.file.path);
     }
 
     const file = await File.create({
       name,
-      createdBy,
+      createdBy: req.user.user_id,
       description,
       createdAt: Date.now(),
       filePath: BASE_URL + path,

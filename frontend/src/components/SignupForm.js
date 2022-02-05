@@ -46,7 +46,14 @@ const SignupForm = () => {
     <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
       <div className="flex justify-center">
         {alertState.show ? (
-          <Alert color={alertState.color} msg={alertState.msg} />
+          <Alert
+            color={alertState.color}
+            msg={alertState.msg}
+            showAlert={alertState.show}
+            setShowAlert={(value) =>
+              setAlertState({ ...alertState, show: value })
+            }
+          />
         ) : null}
       </div>
       <div className="rounded-md shadow-sm -space-y-px">
