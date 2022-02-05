@@ -22,7 +22,7 @@ const sendEmail = ({ email, username, res }) => {
     from: "Educative Fullstack Course",
     to: email,
     subject: "Email Confirmation",
-    html: `Press the following link to verify your email: <a href=http://localhost:3000/verify/${confirmationToken}>Verification Link</a>`,
+    html: `Press the following link to verify your email: <a href=http://localhost:4000/verify/${confirmationToken}>Verification Link</a>`,
   };
 
   // Send the email

@@ -4,7 +4,11 @@ const { MONGO_URI } = process.env;
 
 exports.connect = () => {
   mongoose
-    .connect(MONGO_URI)
+    .connect(MONGO_URI, {
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+      family: 4,
+    })
     .then(() => {
       console.log("connected to database successfully...");
     })
