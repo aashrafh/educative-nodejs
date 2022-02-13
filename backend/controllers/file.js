@@ -1,11 +1,10 @@
 const { File, validate } = require("../models/file");
 const fs = require("fs");
 const readline = require("readline");
-const SpellChecker = require("spellchecker");
+const SpellChecker = require("simple-spellchecker").getDictionarySync("en-GB");
 const stringSimilarity = require("string-similarity");
-const sharp = require("sharp");
 
-const BASE_URL = `http://localhost:${process.env.PORT || 5000}/`;
+const BASE_URL = `/`;
 
 const spellCheck = async (path) => {
   const readInterface = readline.createInterface({
@@ -20,21 +19,21 @@ const spellCheck = async (path) => {
     const correctedLine = line
       .split(" ")
       .map((word) => {
-        if (SpellChecker.isMisspelled(word)) {
-          const suggestions = SpellChecker.getCorrectionsForMisspelling(word);
+        if (!SpellChecker.spellCheck(word)) {
+          const suggestions = SpellChecker.getSuggestions(word);
 
           const matches = stringSimilarity.findBestMatch(word, suggestions);
 
           return matches.bestMatch.target;
-        } else return word;
+        }
+        return word;
       })
       .join(" ");
 
     text += correctedLine + "\n";
   }
 
-  console.log(path + ".txt");
-  fs.writeFile(`${path}.txt`, text, (err, res) => {
+  fs.writeFile(path, text, (err, res) => {
     if (err) console.log("error", err);
   });
 };

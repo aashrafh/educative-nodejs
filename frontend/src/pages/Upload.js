@@ -60,7 +60,7 @@ const Upload = () => {
     <>
       <form
         onSubmit={handleUpload}
-        className="m-10 h-3/4 flex flex-col items-center justify-center"
+        className="m-10 flex flex-col items-center justify-center"
       >
         <div className="flex justify-center mt-10">
           {alertState.show ? (

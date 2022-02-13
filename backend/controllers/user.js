@@ -2,27 +2,31 @@ const { User, validate } = require("../models/user");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
 const nodemailer = require("nodemailer");
+const smtpTransport = require("nodemailer-smtp-transport");
 const { encrypt, decrypt } = require("../utils/confirmation");
 
 const sendEmail = ({ email, username, res }) => {
   // Create a unique confirmation token
   const confirmationToken = encrypt(username);
+  const apiUrl = "http://0.0.0.0:4000";
 
   // Initialize the Nodemailer with your Gmail credentials
-  const Transport = nodemailer.createTransport({
-    service: "Gmail",
-    auth: {
-      user: process.env.GMAIL_EMAIL,
-      pass: process.env.GMAIL_PASSWORD,
-    },
-  });
+  const Transport = nodemailer.createTransport(
+    smtpTransport({
+      service: "Gmail",
+      auth: {
+        user: process.env.GMAIL_EMAIL,
+        pass: process.env.GMAIL_PASSWORD,
+      },
+    })
+  );
 
   // Configure the email options
   const mailOptions = {
     from: "Educative Fullstack Course",
     to: email,
     subject: "Email Confirmation",
-    html: `Press the following link to verify your email: <a href=http://localhost:4000/verify/${confirmationToken}>Verification Link</a>`,
+    html: `Press the following link to verify your email: <a href=${apiUrl}/verify/${confirmationToken}>Verification Link</a>`,
   };
 
   // Send the email
@@ -152,8 +156,10 @@ exports.login = async (req, res) => {
       // save user token
       user.token = token;
 
+      console.log(user.token);
+
       // user
-      res.status(200).json(user);
+      return res.status(200).json(user);
     } else res.status(400).send("Invalid Credentials");
   } catch (err) {
     console.error(err);

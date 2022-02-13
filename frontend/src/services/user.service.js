@@ -1,16 +1,20 @@
 import axios from "axios"; // HTTP Client
 import authHeader from "./auth.header";
 
-const API_URL = "http://localhost:5000/api"; // The API endpoint to communicate with the server
-
 const upload = (data) => {
-  return axios.post(`${API_URL}/upload`, data, {
+  return axios.post(`/upload`, data, {
     headers: { ...authHeader(), "Content-Type": "multipart/form-data" },
   });
 };
 
 const getFiles = () => {
-  return axios.get(`${API_URL}/file`, {
+  return axios.get(`/file`, {
+    headers: { ...authHeader() },
+  });
+};
+
+const deleteFile = (id) => {
+  return axios.delete(`/file/${id}`, {
     headers: { ...authHeader() },
   });
 };
@@ -18,6 +22,7 @@ const getFiles = () => {
 const UserService = {
   upload,
   getFiles,
+  deleteFile,
 };
 
 export default UserService;

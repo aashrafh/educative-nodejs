@@ -5,21 +5,24 @@ import UserService from "../services/user.service";
 
 const View = () => {
   const [files, setFiles] = useState([]);
-  useEffect(() => {
+  const fetchFiles = () => {
     UserService.getFiles()
       .then((res) => {
         console.log(res.data.data);
-        setFiles(res.data.data);
+        setFiles([...res.data.data]);
       })
       .catch((err) => {
         console.log(err);
       });
+  };
+  useEffect(() => {
+    fetchFiles();
   }, []);
   return (
     <>
-      <div className="grid grid-cols-4 gap-4 m-10">
+      <div className="grid grid-cols-3 gap-4 m-10">
         {files.map((file) => {
-          return <Card file={file} />;
+          return <Card file={file} fetchFiles={fetchFiles} />;
         })}
       </div>
     </>

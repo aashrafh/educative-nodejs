@@ -34,6 +34,10 @@ const App = () => {
           token: user?.token,
         },
       });
+
+    return () => {
+      localStorage.clear();
+    };
   }, []);
   return (
     <>

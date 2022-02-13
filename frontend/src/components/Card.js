@@ -1,6 +1,17 @@
 import React from "react";
+import UserService from "../services/user.service";
 
-const Card = ({ file }) => {
+const Card = ({ file, fetchFiles }) => {
+  const handleDelete = () => {
+    UserService.deleteFile(file._id)
+      .then((res) => {
+        console.log(res);
+        fetchFiles();
+      })
+      .catch((err) => {
+        console.log(err.response);
+      });
+  };
   return (
     <>
       <div className="max-w-sm rounded overflow-hidden shadow-lg">
@@ -14,18 +25,21 @@ const Card = ({ file }) => {
           <div className="font-bold text-xl mb-2">{file.name}</div>
           <p className="text-gray-700 text-base">{file.description}</p>
         </div>
-        {/* <div className="px-6 pb-2">
-          <button className="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded inline-flex items-center rounded-full">
-            <svg
-              className="fill-current w-4 h-4 mr-2"
-              xmlns="http://www.w3.org/2000/svg"
-              viewBox="0 0 20 20"
-            >
-              <path d="M13 8V2H7v6H2l8 8 8-8h-5zM0 18h20v2H0v-2z" />
-            </svg>
-            <span>Download</span>
+
+        <div class="inline-flex px-6 pb-3">
+          <button class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded-l">
+            Download
           </button>
-        </div> */}
+          <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4">
+            Edit
+          </button>
+          <button
+            class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded-r"
+            onClick={handleDelete}
+          >
+            Delete
+          </button>
+        </div>
       </div>
     </>
   );
