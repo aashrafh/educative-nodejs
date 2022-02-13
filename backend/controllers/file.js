@@ -4,7 +4,7 @@ const readline = require("readline");
 const SpellChecker = require("simple-spellchecker").getDictionarySync("en-GB");
 const stringSimilarity = require("string-similarity");
 
-const BASE_URL = `/`;
+const BASE_URL = `http://0.0.0.0:5000/`;
 
 const spellCheck = async (path) => {
   const readInterface = readline.createInterface({
@@ -33,7 +33,7 @@ const spellCheck = async (path) => {
     text += correctedLine + "\n";
   }
 
-  fs.writeFile(path, text, (err, res) => {
+  fs.writeFile(`${path}.txt`, text, (err, res) => {
     if (err) console.log("error", err);
   });
 };

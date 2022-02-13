@@ -13,6 +13,12 @@ const getFiles = () => {
   });
 };
 
+const getFile = (filepath) => {
+  return axios.get(`/uploads/${filepath}`, {
+    headers: { ...authHeader() },
+  });
+};
+
 const deleteFile = (id) => {
   return axios.delete(`/file/${id}`, {
     headers: { ...authHeader() },
@@ -21,6 +27,7 @@ const deleteFile = (id) => {
 
 const UserService = {
   upload,
+  getFile,
   getFiles,
   deleteFile,
 };

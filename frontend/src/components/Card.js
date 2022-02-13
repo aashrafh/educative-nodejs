@@ -14,7 +14,7 @@ const Card = ({ file, fetchFiles }) => {
   };
   return (
     <>
-      <div className="max-w-sm rounded overflow-hidden shadow-lg">
+      <div className="max-w-sm rounded overflow-hidden shadow-lg border-2">
         <iframe
           style={{ height: "20rem" }}
           className="w-full"
@@ -27,9 +27,15 @@ const Card = ({ file, fetchFiles }) => {
         </div>
 
         <div class="inline-flex px-6 pb-3">
-          <button class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded-l">
+          <a
+            class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded-l"
+            href={file.filePath}
+            download={file.name}
+            target="_blank"
+            rel="noreferrer"
+          >
             Download
-          </button>
+          </a>
           <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4">
             Edit
           </button>
