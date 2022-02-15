@@ -155,7 +155,6 @@ exports.updateFile = async (req, res) => {
     if (!name || !description)
       return res.status(400).send("File's name and description are required");
 
-    const result = await File.validateAsync({ name, description });
     const file = await File.findOne({
       _id,
     });
@@ -169,7 +168,7 @@ exports.updateFile = async (req, res) => {
         _id,
       },
       {
-        $set: result,
+        $set: { name, description },
       },
       { upsert: true }
     );

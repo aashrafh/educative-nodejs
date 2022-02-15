@@ -1,7 +1,11 @@
-import React from "react";
+import React, { useState } from "react";
 import UserService from "../services/user.service";
 
+import UpdateForm from "./UpdateForm";
+
 const Card = ({ file, fetchFiles }) => {
+  const [openUpdate, setOpenUpdate] = useState(false);
+
   const handleDelete = () => {
     UserService.deleteFile(file._id)
       .then((res) => {
@@ -14,6 +18,12 @@ const Card = ({ file, fetchFiles }) => {
   };
   return (
     <>
+      <UpdateForm
+        open={openUpdate}
+        setOpen={setOpenUpdate}
+        file={file}
+        fetchFiles={fetchFiles}
+      />
       <div className="max-w-sm rounded overflow-hidden shadow-lg border-2">
         <iframe
           style={{ height: "20rem" }}
@@ -36,7 +46,12 @@ const Card = ({ file, fetchFiles }) => {
           >
             Download
           </a>
-          <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4">
+          <button
+            class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4"
+            onClick={() => {
+              setOpenUpdate(true);
+            }}
+          >
             Edit
           </button>
           <button

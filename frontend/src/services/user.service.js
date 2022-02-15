@@ -25,10 +25,21 @@ const deleteFile = (id) => {
   });
 };
 
+const updateFile = (file) => {
+  return axios.put(
+    `/file/${file._id}`,
+    { ...file },
+    {
+      headers: { ...authHeader() },
+    }
+  );
+};
+
 const UserService = {
   upload,
   getFile,
   getFiles,
+  updateFile,
   deleteFile,
 };
 
