@@ -1,6 +1,7 @@
+// frontend/scr/components/Card.js
+
 import React, { useState } from "react";
 import UserService from "../services/user.service";
-
 import UpdateForm from "./UpdateForm";
 
 const Card = ({ file, fetchFiles }) => {

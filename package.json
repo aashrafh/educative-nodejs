@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "start": "node index.js",
-    "dev": "nodemon index.js"
+    "dev": "nodemon index.js",
+    "heroku-postbuild": "cd frontend && npm install --only=dev && npm install && npm run build"
   },
   "keywords": [],
   "author": "",
@@ -26,5 +27,8 @@
     "simple-spellchecker": "^1.0.2",
     "spellchecker": "^3.7.1",
     "string-similarity": "^4.0.4"
-  }
+  },
+  "engines": {
+    "node": "16.13.0"
+}
 }
