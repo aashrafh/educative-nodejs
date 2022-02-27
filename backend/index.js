@@ -7,7 +7,7 @@ const cors = require("cors");
 const bodyParser = require("body-parser");
 
 const app = express();
-const port = 5000;
+const port = process.env.PORT || 5000;
 
 app.use(express.json());
 app.use(cors());
@@ -27,6 +27,6 @@ app.post("/hello", auth, (req, res) => {
 // Register the application main router
 app.use("/", router);
 
-app.listen(port, () => {
-  console.log(`app is listening at http://0.0.0.0:${port}`);
-});
+app.listen(port, () =>
+  console.log(`app is listening at http://0.0.0.0:${port}`)
+);
