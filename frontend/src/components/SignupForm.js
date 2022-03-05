@@ -32,12 +32,11 @@ const SignupForm = () => {
         });
       })
       .catch((err) => {
-        console.log(err.response.data);
         setProcessing(false);
         setAlertState({
           show: true,
           color: "red",
-          msg: err.response.data || "Failed to create the account",
+          msg: err?.response?.data || "Failed to create the account",
         });
       });
   };
