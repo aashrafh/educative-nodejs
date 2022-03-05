@@ -4,7 +4,6 @@ const express = require("express");
 const favicon = require("express-favicon");
 const path = require("path");
 const router = require("./routes/index");
-const auth = require("./middleware/auth");
 const cors = require("cors");
 const bodyParser = require("body-parser");
 
