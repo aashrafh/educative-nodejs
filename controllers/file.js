@@ -23,7 +23,10 @@ const spellCheck = async (path) => {
         if (!SpellChecker.spellCheck(word)) {
           const suggestions = SpellChecker.getSuggestions(word);
 
-          const matches = stringSimilarity.findBestMatch(word, suggestions);
+          const matches = stringSimilarity.findBestMatch(
+            word,
+            suggestions.length === 0 ? [word] : suggestions
+          );
 
           return matches.bestMatch.target;
         }
