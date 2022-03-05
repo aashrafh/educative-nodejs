@@ -23,7 +23,7 @@ app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
 app.use("/", router);
 
-app.get("/hello", auth, (req, res) => {
+app.get("/hello", (req, res) => {
   res.send("Hello 🙌 ");
 });
 
