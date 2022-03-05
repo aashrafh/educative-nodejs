@@ -87,7 +87,7 @@ const App = () => {
           }
         />
         <Route
-          path="/verify/:confirmationToken"
+          path="/confirmation/:confirmationToken"
           element={
             <OnlyNotAuth>
               <Confirmation />
