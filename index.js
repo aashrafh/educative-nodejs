@@ -15,7 +15,6 @@ app.use(express.json());
 app.use(cors());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
-
 app.use(express.static(__dirname));
 app.use(favicon(__dirname + "/frontend/build/favicon.ico"));
 app.use(express.static(path.join(__dirname, "/frontend/build")));
@@ -28,7 +27,7 @@ app.get("/hello", (req, res) => {
 });
 
 app.get("/*", function (req, res) {
-  res.sendFile(path.join(__dirname, "build", "index.html"));
+  res.sendFile(path.join(__dirname, "/frontend/build", "index.html"));
 });
 
 app.listen(port);
