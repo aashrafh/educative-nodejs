@@ -1,3 +1,5 @@
+// frontend/src/services/user.service.js
+
 import axios from "axios"; // HTTP Client
 import authHeader from "./auth.header";
 
@@ -19,12 +21,6 @@ const getFile = (filepath) => {
   });
 };
 
-const deleteFile = (id) => {
-  return axios.delete(`/file/${id}`, {
-    headers: { ...authHeader() },
-  });
-};
-
 const updateFile = (file) => {
   return axios.put(
     `/file/${file._id}`,
@@ -33,6 +29,12 @@ const updateFile = (file) => {
       headers: { ...authHeader() },
     }
   );
+};
+
+const deleteFile = (id) => {
+  return axios.delete(`/file/${id}`, {
+    headers: { ...authHeader() },
+  });
 };
 
 const UserService = {

@@ -1,32 +1,61 @@
 const { User, validate } = require("../models/user");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
-const nodemailer = require("nodemailer");
 const smtpTransport = require("nodemailer-smtp-transport");
 const { encrypt, decrypt } = require("../utils/confirmation");
+const nodemailer = require("nodemailer");
+const { google } = require("googleapis");
+const OAuth2 = google.auth.OAuth2;
 
-const sendEmail = ({ email, username, res }) => {
+const createTransporter = async () => {
+  const oauth2Client = new OAuth2(
+    process.env.OAUTH_CLIENT_ID,
+    process.env.OAUTH_CLIENT_SECRET,
+    "https://developers.google.com/oauthplayground"
+  );
+
+  oauth2Client.setCredentials({
+    refresh_token: process.env.OAUTH_REFRESH_TOKEN,
+  });
+
+  const accessToken = await new Promise((resolve, reject) => {
+    oauth2Client.getAccessToken((err, token) => {
+      if (err) {
+        reject();
+      }
+      resolve(token);
+    });
+  });
+
+  const Transport = nodemailer.createTransport({
+    service: "gmail",
+    auth: {
+      type: "OAuth2",
+      user: process.env.GMAIL_EMAIL,
+      accessToken,
+      clientId: process.env.OAUTH_CLIENT_ID,
+      clientSecret: process.env.OAUTH_CLIENT_SECRET,
+      refreshToken: process.env.OAUTH_REFRESH_TOKEN,
+    },
+  });
+
+  return Transport;
+};
+
+const sendEmail = async ({ email, username, res }) => {
   // Create a unique confirmation token
   const confirmationToken = encrypt(username);
-  const apiUrl = "http://0.0.0.0:4000";
+  const apiUrl = process.env.API_URL || "http://0.0.0.0:4000";
 
   // Initialize the Nodemailer with your Gmail credentials
-  const Transport = nodemailer.createTransport(
-    smtpTransport({
-      service: "Gmail",
-      auth: {
-        user: process.env.GMAIL_EMAIL,
-        pass: process.env.GMAIL_PASSWORD,
-      },
-    })
-  );
+  const Transport = await createTransporter();
 
   // Configure the email options
   const mailOptions = {
     from: "Educative Fullstack Course",
     to: email,
     subject: "Email Confirmation",
-    html: `Press the following link to verify your email: <a href=${apiUrl}/verify/${confirmationToken}>Verification Link</a>`,
+    html: `Press the following link to verify your email: <a href=${apiUrl}/confirmation/${confirmationToken}>Verification Link</a>`,
   };
 
   // Send the email

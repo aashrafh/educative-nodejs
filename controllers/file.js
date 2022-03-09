@@ -3,8 +3,9 @@ const fs = require("fs");
 const readline = require("readline");
 const SpellChecker = require("simple-spellchecker").getDictionarySync("en-GB");
 const stringSimilarity = require("string-similarity");
+const sharp = require("sharp");
 
-const BASE_URL = `http://0.0.0.0:5000/`;
+const BASE_URL = process.env.API_URL || `http://0.0.0.0:5000`;
 
 const spellCheck = async (path) => {
   const readInterface = readline.createInterface({
@@ -22,7 +23,10 @@ const spellCheck = async (path) => {
         if (!SpellChecker.spellCheck(word)) {
           const suggestions = SpellChecker.getSuggestions(word);
 
-          const matches = stringSimilarity.findBestMatch(word, suggestions);
+          const matches = stringSimilarity.findBestMatch(
+            word,
+            suggestions.length === 0 ? [word] : suggestions
+          );
 
           return matches.bestMatch.target;
         }
@@ -85,7 +89,7 @@ exports.upload = async (req, res) => {
       createdBy: req.user.user_id,
       description,
       createdAt: Date.now(),
-      filePath: BASE_URL + path,
+      filePath: BASE_URL + "/" + path,
     });
 
     res.status(200).json({ message: "File uploaded successfully", data: file });
